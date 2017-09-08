@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# This script deploys the static files for www.wintermeyer.de
-#
+# This script deploys the static files for
+URL="www.wintermeyer.de"
 
 # Build the HTML files
 #
-cd ~/Github/www.wintermeyer.de/jekyll/
+cd ~/Github/$URL/jekyll/
 echo "* Generating the HTML files with Jekyll"
 JEKYLL_ENV=production jekyll build
 
@@ -13,7 +13,9 @@ echo -n "Number of generated HTML Files:"
 find _site -name "*.*ml" | wc -l
 echo
 
-cd ~/Github/www.wintermeyer.de/
+# Create a new export directory
+#
+cd ~/Github/$URL/
 mkdir -p export/jekyll/
 rm -rf export/jekyll/_site
 cp -r jekyll/_site export/jekyll/
@@ -47,7 +49,7 @@ tempfoo=`basename $0`
 TMPFILE=`mktemp /tmp/${tempfoo}.XXXXXX` || exit 1
 
 echo "* Deploy with rsync"
-rsync -rlpcgoDvz --log-file=$TMPFILE --delete export/jekyll/_site/* stefan@mothership.frankfurt.amooma.de:/var/www/www.wintermeyer.de/current/
+rsync -rlpcgoDvz --log-file=$TMPFILE --delete export/jekyll/_site/* stefan@mothership.frankfurt.amooma.de:/var/www/$URL/current/
 
 # Remove the tempfile
 #
